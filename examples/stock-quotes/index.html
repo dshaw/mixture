@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0 }
+    #nodeId {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      color: black;
+      font-size: 12em;
+      text-align: center;
+      text-shadow: 4px 4px 1px #e5e5e5;
+      -webkit-transform: scale(1);
+    }
+    #ticker {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-align: right;
+      direction: rtl;
+      background-color: rgba(0,0,0,.5);
+      color: white;
+      text-shadow: 1px 1px 1px #e5e5e5;
+      height: 1.2em;
+    }
+    #ticker span { padding: 10px }
+    #ticker .reserved { background-color: rgba(255,255,0,.5) }
+    #ticker .purchased { background-color: rgba(0,255,0,.5) }
+    #ticker .activity { background-color: rgba(255,0,0,.5) }
+  </style>
+</head>
+<body>
+  <div id=nodeId></div>
+  <footer id=ticker></footer>
+
+  <script src="/js/jquery-1.6.4.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect()
+      , nodeId;
+
+    socket.on('nodeId', function (data) {
+      nodeId = data;
+      document.title = '[ '+nodeId+' ] - @dshaw demo';
+      $('#nodeId').text(nodeId);
+    });
+
+    socket.on('quote', function (data) {
+      $('<span/>', { id: data.id, html: data.symbol + ' : ' + data.price }).appendTo('#ticker');
+
+      // if the last digit of the prices matches the id, buy.
+      var m = ((data.price).match(/[-+]?([0-9]*([0-9]))?\.[0-9]+/))
+        , watch = m && m[2];
+
+      if (nodeId && watch == nodeId) {
+        $('#'+data.id).addClass('reserved');
+        data.buyer = nodeId;
+        data.quantity = Math.round(Math.random()*5)*5;
+        socket.emit('purchase', data);
+      }
+    });
+
+    socket.on('confirm', function (data) {
+      $('#'+data.id)
+          .attr('title','Purchased '+(new Date(data.timestamp)))
+          .removeClass('reserved')
+          .addClass('purchased');
+    });
+
+    socket.on('activity', function (data) {
+      $('#'+data.id)
+          .attr('title','Purchased '+(new Date(data.timestamp))+' on Node Id '+data.nodeId)
+          .addClass('activity');
+    });
+
+    socket.on('restart', function () {
+      location.reload(true);
+    });
+
+    $('#nodeId').live('dblclick', function() { socket.emit('restart') });
+  </script>
+</body>
+</html>

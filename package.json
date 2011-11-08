@@ -1,6 +1,24 @@
 {
     "name": "mixture"
-  , "version": "0.0.0"
-  , "description": "Heterogeneous Cluster"
+  , "version": "0.0.1"
+  , "description": "Heterogeneous cluster task manager"
   , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
+  , "main": "index"
+  , "repository": {
+      "type": "git"
+    , "url": "git://github.com/dshaw/mixture.git"
+    }
+  , "directories": {
+      "lib": "lib"
+    , "test": "test"
+    , "examples": "examples"
+    }
+  , "dependencies": {}
+  , "devDependencies": {
+      "tap": ">= 0.0.10"
+    }
+  , "scripts" : {
+      "test" : "tap test/*.js"
+    }
+  , "engines": { "node": ">= 0.5.9" }
 }

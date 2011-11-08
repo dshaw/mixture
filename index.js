@@ -8,10 +8,10 @@
  * Mixture
  */
 
-exports = module.exports = require('./lib/mixture.js');
+exports = module.exports = require('./lib/mixture.js')
 
 /**
  * Version
  */
 
-exports.version = '0.0.0';
+exports.version = require('./package.json').version

@@ -1,0 +1,14 @@
+{
+    "name": "stock-quotes-example"
+  , "version": "0.1.1"
+  , "description": "Socket.io-announce Sample App: Stock Quote Stream"
+  , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
+  , "keywords": ["socket.io", "socket.io-announce", "redisstore", "redis"]
+  , "main": "index"
+  , "dependencies": {
+      "connect": ">= 1.7.2"
+    , "socket.io": ">= 0.8.5"
+    , "socket.io-announce": ">= 0.1.0"
+    }
+  , "engines": { "node": ">= 0.5.9" }
+}
