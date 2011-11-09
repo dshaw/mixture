@@ -5,7 +5,7 @@ var mixture = require('..')
   , tap = require('tap')
   , test = tap.test
 
-console.log(mix, Master, Task, mix instanceof Master)
+//console.log(mix, Master, Task, mix instanceof Master)
 
 test('mixture exports', function (t) {
   t.ok(Master, 'exports Master')
@@ -17,6 +17,8 @@ test('mixture exports', function (t) {
   t.isa(mix, Master, 'mix is an instance of Master')
   t.ok(mix.tasks, 'initialized tasks hash')
   t.ok(mix.workers, 'initialized workers list')
+  t.equal(mix.name, 'mixmaster', 'default mix name')
+  t.equal(mixture.mix('dshaw').name, 'dshaw', 'assigned mix name')
 
   var master = new Master()
   var task = master.task('name')
