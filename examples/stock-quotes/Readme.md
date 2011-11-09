@@ -10,4 +10,8 @@ Runs on Node.js v0.5.9+.
 
 ### Fun with Mix Masters
 * `node mix-death [n]` - force the death of one of the socket.io processes
-* `node mix-balance [n]` - add load balancing with [bouncy](https://github.com/substack/bouncy) to managed processes with 3 lines of code.
+* `node mix-balanced [n]` - add load balancing with [bouncy](https://github.com/substack/bouncy) to managed processes with 3 lines of code.
+* `sudo node mix-lb80 [n]` - run the load balancer on port 80.
+
+
+Just added load distribution support to managed Mixture processes in 3 lines of code with Bouncy. /ht @substack http://dshaw.me/rWxIL7 #nodejs
