@@ -1,6 +1,6 @@
 {
     "name": "mixture"
-  , "version": "0.0.1"
+  , "version": "0.1.0"
   , "description": "Heterogeneous cluster task manager"
   , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
   , "main": "index"
