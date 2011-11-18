@@ -2,6 +2,7 @@ var path = require('path')
   , connect = require('connect')
   , sio = require('socket.io')
   , RedisStore = sio.RedisStore
+  , worker = require('../../').worker
 
 var port = process.argv[2] || 8880
   , id = process.argv[3] || 0

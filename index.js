@@ -15,3 +15,9 @@ exports = module.exports = require('./lib/mixture.js')
  */
 
 exports.version = require('./package.json').version
+
+/**
+ * Worker mixin
+ */
+
+exports.worker = require('./lib/worker')

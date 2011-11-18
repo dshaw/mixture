@@ -5,6 +5,7 @@
  */
 
 var announce = require('socket.io-announce').createClient()
+  , worker = require('../../').worker
 
 /* fake data stream */
 var symbols = 'THOO GOOF EXIT BOP SDD ALPP RIGM OPPL HPBG'.split(' ')
