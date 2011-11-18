@@ -27,17 +27,38 @@ test('mixture exports', function (t) {
   t.ok(task.master, 'task has a reference to the master')
   t.isa(task.master, Master, 'task master is an instance of Master')
 
-  master.on('death', function() {
+  master.on('death', function(worker, task) {
     console.log('I died', arguments)
+    t.equal(arguments.length, 2, 'death event has 2 arguments')
+//    t.ok(worker, 'worker is defined')
+//    t.ok(worker.pid, 'worker.pid is defined')
+//    t.ok(task, 'task is defined')
   })
 
-  var worker1 = task.fork('./test/fixtures/simple')
-  t.ok(worker1, 'worker is defined')
-  t.equal(task.workers.length, 1, 'task now has one worker')
+  var worker = task.fork('./test/fixtures/simple')
+  worker.kill()
 
-  // fork a new instance of the task
-  var worker2 = task.fork()
-  t.equal(task.workers.length, 2, 'task now has two workers')
+  t.end()
+})
+
+
+test('master child communications', function (t) {
+  t.plan(1)
+
+  var master = new Master()
+  var task = master.task('name')
+  var worker = task.fork('./test/fixtures/simple')
+
+  master.on('message', function (m) {
+    t.ok(m, 'message ok')
+    t.equal('message', m, 'master received message from child')
+  })
+
+  var server = require('net').createServer();
+  server.listen(1337, function() {
+    worker.send('message', server._handle);
+  });
+  worker.send('message')
 
   t.end()
 })
