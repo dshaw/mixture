@@ -1,0 +1,15 @@
+{
+    "name": "mixture-inception-example"
+  , "version": "0.1.0-pre"
+  , "description": "Inception Mixture master workers"
+  , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
+  , "keywords": ["mixture"]
+  , "main": "index"
+  , "dependencies": {
+      "charm": ">= 0.0.5"
+    }
+  , "engines": { "node": ">= 0.5.9" }
+  , "scripts": {
+        "start": "node mix"
+    }
+}
