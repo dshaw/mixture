@@ -1,14 +1,27 @@
 {
-    "name": "stock-quotes-example"
-  , "version": "0.1.1"
-  , "description": "Socket.io-announce Sample App: Stock Quote Stream"
-  , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
-  , "keywords": ["mixture", "socket.io", "socket.io-announce", "redisstore", "redis"]
-  , "main": "index.js"
-  , "dependencies": {
-      "connect": ">= 1.7.2"
-    , "socket.io": ">= 0.8.5"
-    , "socket.io-announce": ">= 0.1.0"
-    }
-  , "engines": { "node": ">= 0.5.9" }
+  "name": "stock-quotes-example",
+  "version": "0.1.1",
+  "description": "Socket.io-announce Sample App: Stock Quote Stream",
+  "keywords": [
+    "mixture",
+    "socket.io",
+    "socket.io-announce",
+    "redisstore",
+    "redis"
+  ],
+  "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)",
+  "license": "MIT",
+  "main": "mix",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "mixture": "~0.1.0",
+    "express": "~2.5.9",
+    "socket.io": "https://github.com/dshaw/socket.io/tarball/patch/redis71",
+    "socket.io-announce": "https://github.com/dshaw/socket.io-announce/tarball/patch/redis71"
+  },
+  "engines": {
+    "node": ">= 0.5.9"
+  }
 }
