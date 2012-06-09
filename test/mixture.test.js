@@ -1,29 +1,29 @@
 var mixture = require('..')
-  , mix = mixture.mix()
-  , Master = mixture.Master
+  , Mix = mixture.mix
+  , mix = Mix()
   , Task = mixture.Task
   , tap = require('tap')
   , test = tap.test
 
-console.log(mix, Master, Task, mix instanceof Master)
+console.log(mix, Task, mix instanceof Mix)
 
 test('mixture exports', function (t) {
-  t.ok(Master, 'exports Master')
+  t.ok(Mix, 'exports Mix')
   t.ok(Task, 'exports Task')
 
   var version = require('../package.json').version
   t.equal(mixture.version, version, 'exports version')
 
-  t.isa(mix, Master, 'mix is an instance of Master')
+  t.isa(mix, Mix, 'mix is an instance of Mix')
   t.ok(mix.tasks, 'initialized tasks hash')
   t.ok(mix.workers, 'initialized workers list')
 
-  var master = new Master()
+  var master = new Mix()
   var task = master.task('name')
   t.isa(master.task, 'function', 'task method defined')
   t.isa(task, Task, 'task returns a task')
   t.ok(task.master, 'task has a reference to the master')
-  t.isa(task.master, Master, 'task master is an instance of Master')
+  t.isa(task.master, Mix, 'task master is an instance of Master')
 
   master.on('death', function() {
     console.log('I died', arguments)
