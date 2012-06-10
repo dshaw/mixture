@@ -6,7 +6,7 @@ var express = require('express')
 var port = process.argv[2] || 8880
   , id = process.argv[3] || 0
   , delay = process.argv[4] || 800
-  , app = app = express.createServer(express.static(__dirname + '/.'))
+  , app = express.createServer(express.static(__dirname + '/.'))
   , io = sio.listen(app)
 
 io.configure(function () {
