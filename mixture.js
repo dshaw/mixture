@@ -1,6 +1,6 @@
 /*!
  * mixture
- * Copyright(c) 2011 Daniel D. Shaw <dshaw@dshaw.com>
+ * Copyright(c) 2011-2012 Daniel D. Shaw <dshaw@dshaw.com>
  * MIT Licensed
  */
 
@@ -8,43 +8,50 @@
  * Module dependencies.
  */
 
-var assert = require('assert')
-  , util = require('util')
+var util = require('util')
   , EventEmitter = require('events').EventEmitter
-  , Task = require('./task')
+  , Task = require('./lib/task')
+  , Worker = require('./lib/worker')
+  , debug = function () {}
 
 /**
- * Exports
+ * Exports.
  */
 
-exports.mix = function (name) { return new Master(name) }
-exports.Master = Master
+exports.mix = Mix
 exports.Task = Task
+exports.worker = Worker
 
 /**
- * Mix Master
+ * Mix
+ *
+ * @param options
+ * @return {Mix}
+ * @constructor
  */
 
-function Master (name) {
-  this.name = name || 'mixmaster'
+function Mix (options) {
+  if (!(this instanceof Mix)) return new Mix(options)
+
+  options || (options = {})
+
+  this.name = (typeof options === 'string') ? options : options.name || 'mix'
   this.ids = 0
   this.tasks = {}
   this.workers = []
 
+  if (options.debug) debug = console.log
+
   this.init()
 }
 
-/**
- * Inherit EventEmitter
- */
-
-util.inherits(Master, EventEmitter)
+util.inherits(Mix, EventEmitter)
 
 /**
- * Initialize Master
+ * Initialize Mix
  */
 
-Master.prototype.init = function () {
+Mix.prototype.init = function () {
   var self = this
 
   this.on('exit', function(e) {
@@ -56,16 +63,16 @@ Master.prototype.init = function () {
 
   this.on('worker:started', function(worker, task) {
     if (!worker || !task) return console.log('incomplete online notification')
-    console.log(self.name + ': Task ', task.name, ' worker ', worker.pid, 'worker:started')
+    debug(self.name + ': Task ', task.name, ' worker ', worker.pid, 'worker:started')
   })
 
   this.on('death', function(worker, task) {
-    console.log(self.name + ': Task ', task.name, ' worker ', worker.pid, 'died')
+    debug(self.name + ': Task ', task.name, ' worker ', worker.pid, 'died')
   })
 
   process.on('uncaughtException', function(e) {
     self.eachWorker(function(worker) {
-      console.log('kill worker ' + worker.pid)
+      debug('kill worker ' + worker.pid)
       worker.kill()
     })
 
@@ -82,11 +89,11 @@ Master.prototype.init = function () {
  * @api public
  */
 
-Master.prototype.task = function (name, options) {
+Mix.prototype.task = function (name, options) {
   if (!this.tasks[name]) {
     options || (options = {})
     options.master = this
-    options.name = name
+    options.name = this.name
     this.tasks[name] = new Task(options)
   }
   return this.tasks[name]
@@ -99,18 +106,19 @@ Master.prototype.task = function (name, options) {
  * @param cb
  */
 
-Master.prototype.eachWorker = function (task, cb) {
-  var _workers = this.workers
+Mix.prototype.eachWorker = function (task, cb) {
+  var workers = null
 
-  if (arguments.length < 2) {
+  if (typeof cb === 'undefined') {
     cb = task
+    workers = this.workers
   } else {
-    _workers = task.workers
+    workers = this.tasks[task].workers
   }
 
-  for (var id in _workers) {
-    if (_workers[id]) {
-      cb(_workers[id])
+  for (var id in workers) {
+    if (workers[id]) {
+      cb(workers[id])
     }
   }
 }
@@ -123,7 +131,7 @@ Master.prototype.eachWorker = function (task, cb) {
  * @param message
  */
 
-Master.prototype.onWorkerMessage = function (worker, task, message) {
+Mix.prototype.onWorkerMessage = function (worker, task, message) {
   task || (task = {})
   worker || (worker = {})
   console.log(this.name + ': Task ', task.name, ' worker ', worker.pid, message)

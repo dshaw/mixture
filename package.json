@@ -1,24 +1,36 @@
 {
-    "name": "mixture"
-  , "version": "0.1.0"
-  , "description": "Heterogeneous cluster task manager"
-  , "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)"
-  , "main": "index"
-  , "repository": {
-      "type": "git"
-    , "url": "git://github.com/dshaw/mixture.git"
-    }
-  , "directories": {
-      "lib": "lib"
-    , "test": "test"
-    , "examples": "examples"
-    }
-  , "dependencies": {}
-  , "devDependencies": {
-      "tap": ">= 0.0.10"
-    }
-  , "scripts" : {
-      "test" : "tap test/*.js"
-    }
-  , "engines": { "node": ">= 0.5.9" }
+  "name": "mixture",
+  "version": "0.2.0-pre",
+  "description": "Heterogeneous cluster task manager",
+  "keywords": [
+    "cluster",
+    "child_process",
+    "fork",
+    "worker"
+  ],
+  "author": "Daniel D. Shaw <dshaw@dshaw.com> (http://dshaw.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dshaw/mixture.git"
+  },
+  "bugs": {
+    "url": "http://github.com/dshaw/mixture/issues"
+  },
+  "license": "MIT",
+  "main": "mixture",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test",
+    "examples": "examples"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tap": "~0.2.5"
+  },
+  "engines": {
+    "node": ">= 0.5.9"
+  }
 }

@@ -1,5 +1,4 @@
-var path = require('path')
-  , connect = require('connect')
+var express = require('express')
   , sio = require('socket.io')
   , RedisStore = sio.RedisStore
   , worker = require('../../').worker
@@ -7,11 +6,11 @@ var path = require('path')
 var port = process.argv[2] || 8880
   , id = process.argv[3] || 0
   , delay = process.argv[4] || 800
-  , app = connect.createServer(connect.static(path.join(__dirname, './')))
+  , app = app = express.createServer(express.static(__dirname + '/.'))
   , io = sio.listen(app)
 
 io.configure(function () {
- io.set('store', new RedisStore({ nodeId: function () { return id } }))
+io.set('store', new RedisStore({ nodeId: function () { return id } }))
 })
 
 io.sockets.on('connection', function (socket) {

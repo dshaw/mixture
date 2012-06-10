@@ -1,31 +1,29 @@
-var mixture = require('..')
-  , mix = mixture.mix()
-  , Master = mixture.Master
-  , Task = mixture.Task
+var net = require('net')
   , tap = require('tap')
   , test = tap.test
+  , mixture = require('..')
+  , Mix = mixture.mix
+  , mix = Mix()
+  , Task = mixture.Task
 
-//console.log(mix, Master, Task, mix instanceof Master)
+console.log(mix, Task, mix instanceof Mix)
 
 test('mixture exports', function (t) {
-  t.ok(Master, 'exports Master')
+  t.ok(Mix, 'exports Mix')
   t.ok(Task, 'exports Task')
 
-  var version = require('../package.json').version
-  t.equal(mixture.version, version, 'exports version')
-
-  t.isa(mix, Master, 'mix is an instance of Master')
+  t.isa(mix, Mix, 'mix is an instance of Mix')
   t.ok(mix.tasks, 'initialized tasks hash')
   t.ok(mix.workers, 'initialized workers list')
-  t.equal(mix.name, 'mixmaster', 'default mix name')
+  t.equal(mix.name, 'mix', 'default mix name')
   t.equal(mixture.mix('dshaw').name, 'dshaw', 'assigned mix name')
 
-  var master = new Master()
+  var master = new Mix()
   var task = master.task('name')
   t.isa(master.task, 'function', 'task method defined')
   t.isa(task, Task, 'task returns a task')
   t.ok(task.master, 'task has a reference to the master')
-  t.isa(task.master, Master, 'task master is an instance of Master')
+  t.isa(task.master, Mix, 'task master is an instance of Master')
 
   master.on('death', function(worker, task) {
     console.log('I died', arguments)
@@ -45,7 +43,7 @@ test('mixture exports', function (t) {
 test('master child communications', function (t) {
   t.plan(1)
 
-  var master = new Master()
+  var master = mixture.mix()
   var task = master.task('name')
   var worker = task.fork('./test/fixtures/simple')
 
@@ -54,7 +52,7 @@ test('master child communications', function (t) {
     t.equal('message', m, 'master received message from child')
   })
 
-  var server = require('net').createServer();
+  var server = net.createServer();
   server.listen(1337, function() {
     worker.send('message', server._handle);
   });

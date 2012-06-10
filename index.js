@@ -1,6 +1,6 @@
 /*!
  * mixture
- * Copyright(c) 2011 Daniel D. Shaw <dshaw@dshaw.com>
+ * Copyright(c) 2011-2012 Daniel D. Shaw <dshaw@dshaw.com>
  * MIT Licensed
  */
 
@@ -8,16 +8,16 @@
  * Mixture
  */
 
-exports = module.exports = require('./lib/mixture.js')
+var mixture = exports = module.exports = require('./mixture.js')
 
 /**
  * Version
  */
 
-exports.version = require('./package.json').version
+mixture.version = require('./package.json').version
 
 /**
  * Worker mixin
  */
 
-exports.worker = require('./lib/worker')
+mixture.worker = require('./lib/worker')
