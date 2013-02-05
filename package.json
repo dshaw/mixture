@@ -1,6 +1,6 @@
 {
   "name": "mixture",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Heterogeneous cluster task manager",
   "keywords": [
     "cluster",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "index",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.test.js"
   },
   "directories": {
     "lib": "lib",
@@ -28,7 +28,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "tap": "~0.2.5"
+    "tap": "~0.3.x"
   },
   "engines": {
     "node": ">= 0.5.9"
